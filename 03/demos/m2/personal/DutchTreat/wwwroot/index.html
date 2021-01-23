@@ -2,13 +2,14 @@
 <html>
 <head>
     <title>Dutch Treat</title>
+    <link href="css/site.css" rel="stylesheet" />
 </head>
 <body>
     <h2>Dutch Treat</h2>
-    <div>
+    <div class="product-info">
         <img src="/img/VanGogh.jpg" alt="Van Gogh" />
         <h3>Dutch Mug</h3>
-        <ul>
+        <ul class="product-props">
             <li>Price: $9.99</li>
             <li>Artist: Van Gogh</li>
             <li>Title: </li>
@@ -16,25 +17,28 @@
         </ul>
         <button>Buy</button>
     </div>
-    <form action="/" method="post">
-        <label>Your Name: </label>
-        <br />
-        <input />
-        <br />
-        <label>Email: </label>
-        <br />
-        <input type="email" />
-        <br />
-        <label>Subject: </label>
-        <br />
-        <input type="text" />
-        <br />
-        <label>Message: </label>
-        <br />
-        <textarea rows="4"></textarea>
-        <br />
-        <input type="submit" value="Send Message" />
-    </form>
+    <div id="formDiv">
+        <form action="/" method="post">
+            <label>Your Name: </label>
+            <br />
+            <input style="font-size: 18px; width: 200px;" />
+            <br />
+            <label>Email: </label>
+            <br />
+            <input type="email" />
+            <br />
+            <label>Subject: </label>
+            <br />
+            <input type="text" />
+            <br />
+            <label>Message: </label>
+            <br />
+            <textarea rows="4"></textarea>
+            <br />
+            <input type="submit" value="Send Message" />
+        </form>
+    </div>
+    
     <!--<p>This is a dutch <strong>artisian</strong> treat <a href="#">site</a>.</p>-->
     <!--<ol>
         <li>One</li>
