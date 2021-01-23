@@ -26,6 +26,8 @@ namespace DutchTreat
             app.UseDefaultFiles();
             //Gives the server instruction to serve static files
             app.UseStaticFiles();
+            //Adds node modules
+            app.UseNodeModules();
             //If the page is run as a dev, will rebuild custom
             //if (env.IsDevelopment())
             //{

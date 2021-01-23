@@ -6,6 +6,5 @@
     "jquery": "3.5.1",
     "bootstrap": "4.6.0"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
