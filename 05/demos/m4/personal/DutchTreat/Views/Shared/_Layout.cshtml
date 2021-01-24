@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Dutch Treat: @ViewBag.Title</title> @*Deploys to different pages and passes a variable we can control*@
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <h1>Welcome to Dutch Treat</h1>
+        <menu>
+            <ul>
+                <li><a asp-controller="App" asp-action="Index">Home</a></li>
+                <li><a asp-controller="App" asp-action="About">About</a></li>
+                <li><a asp-controller="App" asp-action="Contact">Contact</a></li>
+            </ul>
+        </menu>
+    </header>
+    <section>
+        <h2>@ViewBag.Title</h2>
+        @RenderBody()
+    </section>
+    <footer>Copyright 2021 Alex Fuller LLC</footer>
+
+    <script src="~/node_modules/jquery/dist/jquery.min.js"></script> @*reference to node.js modules*@
+    <script src="~/js/index.js"></script> @*Still best practice to put the scripts at the bottom of the body*@
+    @RenderSection("scripts")
+</body>
+</html>
