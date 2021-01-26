@@ -13,18 +13,18 @@ namespace DutchTreat.Controllers
     public class AppController : Controller
     {
         private readonly IMailService _mailService;
-        private readonly DutchContext _context;
+        private readonly IDutchRepository _repository;
 
         //Bring in the context which is importing the data from the server
-        public AppController(IMailService mailService, DutchContext context)
+        public AppController(IMailService mailService, IDutchRepository repository)
         {
             _mailService = mailService;
-            _context = context;
+            _repository = repository;
         }
 
         public IActionResult Index()
         {
-            var results = _context.Products.ToList();
+            var results = _repository.GetAllProducts();
             return View();
         }
 
@@ -58,9 +58,7 @@ namespace DutchTreat.Controllers
         //In the reference to the shop page, references to the DB can now be queried with LINQ
         public IActionResult Shop()
         {
-            var results = _context.Products
-                .OrderBy(p => p.Category)
-                .ToList(); //Get all products from the Db ordered by category
+            var results = _repository.GetAllProducts(); //Get all products from the Db ordered by category
 
             return View(results);
         }

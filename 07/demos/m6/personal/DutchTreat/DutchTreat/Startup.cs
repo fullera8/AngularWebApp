@@ -41,6 +41,9 @@ namespace DutchTreat
 
             //Need the service to recogize the seeder service at runtime
             services.AddTransient<DutchSeeder>();
+
+            //Add Dutch Repository service
+            services.AddScoped<IDutchRepository, DutchRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
