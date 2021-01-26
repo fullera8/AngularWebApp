@@ -38,6 +38,9 @@ namespace DutchTreat
             {
                 cfg.UseSqlServer(_config.GetConnectionString("DutchConnectionString"));
             });
+
+            //Need the service to recogize the seeder service at runtime
+            services.AddTransient<DutchSeeder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

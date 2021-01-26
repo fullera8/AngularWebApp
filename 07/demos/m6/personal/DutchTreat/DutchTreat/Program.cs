@@ -3,21 +3,40 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DutchTreat.Data;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace DutchTreat
 {
-  public class Program
-  {
-    public static void Main(string[] args)
+    public class Program
     {
-      BuildWebHost(args).Run();
-    }
+        public static void Main(string[] args)
+        {
+            var host = BuildWebHost(args);
 
-    public static IWebHost BuildWebHost(string[] args) =>
+            //While the connection is created with the server seed it
+            RunSeeding(host);
+
+            host.Run();
+        }
+
+        //Execute seeding
+        private static void RunSeeding(IWebHost host)
+        {
+            //Guarentees the Dutch Seeder scope can be reached and is disposed effectivly after use
+            var scopeFactory = host.Services.GetService<IServiceScopeFactory>();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var seeder = scope.ServiceProvider.GetService<DutchSeeder>();
+                seeder.Seed();
+            }
+        }
+
+        public static IWebHost BuildWebHost(string[] args) =>
         WebHost.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration(SetupConfiguration)
             .UseStartup<Startup>()
