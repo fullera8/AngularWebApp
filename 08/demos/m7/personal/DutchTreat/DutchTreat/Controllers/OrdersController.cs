@@ -28,21 +28,22 @@ namespace DutchTreat.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public ActionResult<IEnumerable<Order>> Get()
-        {
-            try
-            {
-                return Ok(this.mapper.Map<IEnumerable<Order>, IEnumerable<OrderViewModel>>(this.repository.GetAllOrders()));
-            }
-            catch (Exception e)
-            {
-                this.logger.LogError($"An Error occured in GetAllOrders: {e}");
-                return BadRequest("Failed to Get Orders.");
-            }
-        }
+        //Rolled up to have passable params
+        //[HttpGet]
+        //[ProducesResponseType(200)]
+        //[ProducesResponseType(400)]
+        //public ActionResult<IEnumerable<Order>> Get()
+        //{
+        //    try
+        //    {
+        //        return Ok(this.mapper.Map<IEnumerable<Order>, IEnumerable<OrderViewModel>>(this.repository.GetAllOrders(true)));
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        this.logger.LogError($"An Error occured in GetAllOrders: {e}");
+        //        return BadRequest("Failed to Get Orders.");
+        //    }
+        //}
 
         [HttpGet("{id:int}")] //Can pass id in the URL
         [ProducesResponseType(200)]
@@ -62,6 +63,23 @@ namespace DutchTreat.Controllers
             {
                 this.logger.LogError($"An Error occured in GetOrderById: {e}");
                 return BadRequest("Failed to Get Order.");
+            }
+        }
+
+        [HttpGet] //Include order Items
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public ActionResult<Order> Get(bool includeItems = true) //Use id from URL
+        {
+            try
+            {
+                var results = this.repository.GetAllOrders(includeItems);
+                return Ok(this.mapper.Map<IEnumerable<Order>, IEnumerable<OrderViewModel>>(results));
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError($"An Error occured in GetAllOrders: {e}");
+                return BadRequest("Failed to Get Orders.");
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DutchTreat.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace DutchTreat.ViewModels
         [Required]
         [MinLength(4)]
         public string OrderNumber { get; set; }
+        public ICollection<OrderItemViewModel> Items { get; set; }
     }
 }

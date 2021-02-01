@@ -21,12 +21,22 @@ namespace DutchTreat.Data
         }
 
         //Get all orders
-        public IEnumerable<Order> GetAllOrders()
+        public IEnumerable<Order> GetAllOrders(bool includeItems)
         {
-            return _dutchContext.Orders
-                .Include(o => o.Items)
-                .ThenInclude(i => i.Product)
-                .ToList(); //Basic order list for testing
+            if (includeItems)
+            {
+                return _dutchContext.Orders
+                    .Include(o => o.Items)
+                    .ThenInclude(i => i.Product)
+                    .ToList(); //Basic order list for testing
+            }
+            else
+            {
+                return _dutchContext.Orders
+                    .ToList(); //Basic order list for testing
+            }
+
+            
         }
 
         //Get order by id
