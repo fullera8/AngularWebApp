@@ -1,5 +1,6 @@
 ﻿using DutchTreat.Data;
 using DutchTreat.Data.Entities;
+using DutchTreat.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -65,13 +66,34 @@ namespace DutchTreat.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public ActionResult<Order> Post([FromBody]Order model)
+        public ActionResult<OrderViewModel> Post([FromBody]OrderViewModel model)
         {
             try
             {
-                this.repository.AddEntity(model);
-                if(this.repository.SaveAll())
-                    return Created($"/api/orders/{model.Id}", model);
+                if (ModelState.IsValid) //model validation check
+                {
+                    var newOrder = new Order()
+                    {
+                        OrderDate = model.OrderDate,
+                        OrderNumber = model.OrderNumber,
+                        Id = model.OrderId
+                    };
+                    if (newOrder.OrderDate == DateTime.MinValue) //If user didn't specify a date
+                    {
+                        newOrder.OrderDate = DateTime.Now;
+                    }
+                        
+                    this.repository.AddEntity(newOrder);
+                    if (this.repository.SaveAll())
+                    {
+                        model.OrderId = newOrder.Id;
+                        model.OrderDate = newOrder.OrderDate;
+                        model.OrderNumber = newOrder.OrderNumber;
+                        return Created($"/api/orders/{model.OrderId}", model);
+                    }     
+                }
+                else
+                    return BadRequest(ModelState);//Returns what is wrong with the model validation
             }
             catch (Exception e)
             {
