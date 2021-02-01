@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace DutchTreat
 {
@@ -31,8 +32,15 @@ namespace DutchTreat
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IMailService, NullMailService>();
-            // Support for real mail service
-            services.AddControllersWithViews();
+
+            //Add the newtonsoft json service
+            services.AddControllers()
+                .AddNewtonsoftJson();
+
+            // Support for real mail service and json reference loop handling
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+            
             //Add the appropriate db contexts, note the lamda is required to know the type of db
             services.AddDbContext<DutchContext>(cfg =>
             {
@@ -44,6 +52,13 @@ namespace DutchTreat
 
             //Add Dutch Repository service
             services.AddScoped<IDutchRepository, DutchRepository>();
+
+            //services.
+
+            //Add newer API services, need at least version 2.1
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+                
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

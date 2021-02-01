@@ -1,4 +1,5 @@
 ﻿using DutchTreat.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,25 @@ namespace DutchTreat.Data
         {
             _dutchContext = dutchContect;
             _logger = logger;
+        }
+
+        //Get all orders
+        public IEnumerable<Order> GetAllOrders()
+        {
+            return _dutchContext.Orders
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
+                .ToList(); //Basic order list for testing
+        }
+
+        //Get order by id
+        public Order GetOrderById(int id)
+        {
+            return _dutchContext.Orders
+                .Where(o => o.Id == id)
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
+                .FirstOrDefault(); //Basic order list for testing
         }
 
         //Get all products
@@ -50,6 +70,11 @@ namespace DutchTreat.Data
         public bool SaveAll()
         {
             return _dutchContext.SaveChanges() > 0;
+        }
+
+        public void AddEntity(object model)
+        {
+            _dutchContext.Add(model);
         }
     }
 }

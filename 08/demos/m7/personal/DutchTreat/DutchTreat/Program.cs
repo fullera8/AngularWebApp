@@ -37,10 +37,10 @@ namespace DutchTreat
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-        WebHost.CreateDefaultBuilder(args)
-            .ConfigureAppConfiguration(SetupConfiguration)
-            .UseStartup<Startup>()
-            .Build();
+            WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(SetupConfiguration)
+                .UseStartup<Startup>()
+                .Build();
 
         private static void SetupConfiguration(WebHostBuilderContext ctx, IConfigurationBuilder builder)
         {

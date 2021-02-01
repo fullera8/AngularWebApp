@@ -25,6 +25,14 @@ namespace DutchTreat.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<OrderItem>()
+              .Property(p => p.UnitPrice)
+              .HasColumnType("decimal(18,2)");
+
             //Adds base data (limited functionality) so we are not inserting nulls for non-null fields
             //Best for lists of proper fixed objects like state name lists.
             //Not good for populating related data or variable data like products in a store.
