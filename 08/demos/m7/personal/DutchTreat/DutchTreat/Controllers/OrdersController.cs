@@ -1,4 +1,5 @@
-﻿using DutchTreat.Data;
+﻿using AutoMapper;
+using DutchTreat.Data;
 using DutchTreat.Data.Entities;
 using DutchTreat.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,13 @@ namespace DutchTreat.Controllers
     {
         private readonly IDutchRepository repository;
         private readonly ILogger<OrdersController> logger;
+        private readonly IMapper mapper;
 
-        public OrdersController(IDutchRepository repository, ILogger<OrdersController> logger)
+        public OrdersController(IDutchRepository repository, ILogger<OrdersController> logger, IMapper mapper)
         {
             this.repository = repository;
             this.logger = logger;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -32,7 +35,7 @@ namespace DutchTreat.Controllers
         {
             try
             {
-                return Ok(this.repository.GetAllOrders());
+                return Ok(this.mapper.Map<IEnumerable<Order>, IEnumerable<OrderViewModel>>(this.repository.GetAllOrders()));
             }
             catch (Exception e)
             {
@@ -51,7 +54,7 @@ namespace DutchTreat.Controllers
                 var order = this.repository.GetOrderById(id);
 
                 if (order != null)
-                    return Ok(order);
+                    return Ok(this.mapper.Map<Order, OrderViewModel>(order));
                 else
                     return NotFound();
             }
@@ -72,25 +75,13 @@ namespace DutchTreat.Controllers
             {
                 if (ModelState.IsValid) //model validation check
                 {
-                    var newOrder = new Order()
-                    {
-                        OrderDate = model.OrderDate,
-                        OrderNumber = model.OrderNumber,
-                        Id = model.OrderId
-                    };
+                    var newOrder = this.mapper.Map<OrderViewModel, Order>(model);
                     if (newOrder.OrderDate == DateTime.MinValue) //If user didn't specify a date
-                    {
                         newOrder.OrderDate = DateTime.Now;
-                    }
                         
                     this.repository.AddEntity(newOrder);
                     if (this.repository.SaveAll())
-                    {
-                        model.OrderId = newOrder.Id;
-                        model.OrderDate = newOrder.OrderDate;
-                        model.OrderNumber = newOrder.OrderNumber;
-                        return Created($"/api/orders/{model.OrderId}", model);
-                    }     
+                        return Created($"/api/orders/{model.OrderId}", this.mapper.Map<Order, OrderViewModel>(newOrder)); 
                 }
                 else
                     return BadRequest(ModelState);//Returns what is wrong with the model validation

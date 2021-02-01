@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using AutoMapper;
+using System.Reflection;
 
 namespace DutchTreat
 {
@@ -32,6 +34,9 @@ namespace DutchTreat
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IMailService, NullMailService>();
+
+            //Add automapper service
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());//look for profiles for mapping
 
             //Add the newtonsoft json service
             services.AddControllers()
