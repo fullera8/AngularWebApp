@@ -15,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using AutoMapper;
 using System.Reflection;
+using DutchTreat.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace DutchTreat
 {
@@ -33,6 +35,14 @@ namespace DutchTreat
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //Add identity service, StoreUser is to store user info specific to the app
+            // Identity role is for identity configuration
+            services.AddIdentity<StoreUser, IdentityRole>(cfg => 
+            {
+                cfg.User.RequireUniqueEmail = true;                
+            })
+                .AddEntityFrameworkStores<DutchContext>();
+            
             services.AddTransient<IMailService, NullMailService>();
 
             //Add automapper service
@@ -77,7 +87,12 @@ namespace DutchTreat
             app.UseStaticFiles();
             app.UseNodeModules();
 
+            //Add Identity pipeline, put this before routing and endpoints for security
+            app.UseAuthentication();
+            
             app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(cfg =>
             {
