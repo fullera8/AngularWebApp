@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DutchTreat.Data;
 using DutchTreat.Services;
 using DutchTreat.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DutchTreat.Controllers
@@ -56,6 +57,8 @@ namespace DutchTreat.Controllers
         }
 
         //In the reference to the shop page, references to the DB can now be queried with LINQ
+        //Authorize requires user authentication to view the page.
+        [Authorize]
         public IActionResult Shop()
         {
             var results = _repository.GetAllProducts(); //Get all products from the Db ordered by category
