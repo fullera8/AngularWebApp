@@ -8,7 +8,8 @@
 }
 <div class-="row">
     <div class="col-md-4 offset-md-4">
-        <form>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly"></div> @*Will show errors at top of the page but only show the generic model errors provided*@
             <div class="form-group">
                 <label asp-for="Username">Username</label>
                 <input asp-for="Username" class="form-control"/>
