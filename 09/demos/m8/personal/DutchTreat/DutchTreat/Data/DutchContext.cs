@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DutchTreat.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace DutchTreat.Data
 {
-    public class DutchContext : DbContext 
+    public class DutchContext : IdentityDbContext<StoreUser>
     {
         //Constructor is needed so the db can get/set options in the context. 
         //In this example it just passes variables as is to and from the sql server.
