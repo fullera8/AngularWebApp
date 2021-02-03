@@ -2,6 +2,8 @@
 using DutchTreat.Data;
 using DutchTreat.Data.Entities;
 using DutchTreat.ViewModels;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,6 +17,8 @@ namespace DutchTreat.Controllers
     [Route("api/[Controller]")]
     [ApiController]
     [Produces("application/json")]
+    //Specify the login is required and cookies will not be used
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
     public class OrdersController : Controller
     {
         private readonly IDutchRepository repository;
@@ -27,23 +31,6 @@ namespace DutchTreat.Controllers
             this.logger = logger;
             this.mapper = mapper;
         }
-
-        //Rolled up to have passable params
-        //[HttpGet]
-        //[ProducesResponseType(200)]
-        //[ProducesResponseType(400)]
-        //public ActionResult<IEnumerable<Order>> Get()
-        //{
-        //    try
-        //    {
-        //        return Ok(this.mapper.Map<IEnumerable<Order>, IEnumerable<OrderViewModel>>(this.repository.GetAllOrders(true)));
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        this.logger.LogError($"An Error occured in GetAllOrders: {e}");
-        //        return BadRequest("Failed to Get Orders.");
-        //    }
-        //}
 
         [HttpGet("{id:int}")] //Can pass id in the URL
         [ProducesResponseType(200)]

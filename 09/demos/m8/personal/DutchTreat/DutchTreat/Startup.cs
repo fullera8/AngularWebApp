@@ -17,6 +17,8 @@ using AutoMapper;
 using System.Reflection;
 using DutchTreat.Data.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace DutchTreat
 {
@@ -42,7 +44,20 @@ namespace DutchTreat
                 cfg.User.RequireUniqueEmail = true;                
             })
                 .AddEntityFrameworkStores<DutchContext>();
-            
+
+            services.AddAuthentication()
+                .AddCookie() //Add token support for the authentication, does not store auth token directly 
+                             //.AddJwtBearer();
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidIssuer = _config["Tokens:Issuer"],
+                        ValidAudience = _config["Tokens:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]))
+                    };
+                }); //Auth JSON token
+
             services.AddTransient<IMailService, NullMailService>();
 
             //Add automapper service

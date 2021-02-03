@@ -10,5 +10,10 @@
 			"DutchTreat": "Information", //Allow all information from the app by default
 			"Microsoft": "Warning" //Filters out information logging from MSFT, allowing only warning and above to bubble up
 		}
+	},
+	"Tokens": {
+		"Key": "a;lkjasdf;lkajsd;flkjas ;dflkja sd",
+		"Issuer": "http://localhost:8888",
+		"Audience": "users"
 	}
 }
