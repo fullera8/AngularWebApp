@@ -14,7 +14,7 @@ var StoreCustomer = /** @class */ (function () {
         set: function (val) {
             this.ourName = val;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return StoreCustomer;
