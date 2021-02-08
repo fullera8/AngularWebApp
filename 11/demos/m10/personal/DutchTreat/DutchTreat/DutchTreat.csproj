@@ -24,8 +24,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="angular.json" />
+    <Content Include="config.json" />
+    <Content Include="package-lock.json" />
+    <Content Include="package.json" />
     <Content Include="Pages\Error.cshtml" />
     <Content Include="Pages\_ViewStart.cshtml" />
+    <Content Include="tsconfig.app.json" />
+    <Content Include="tsconfig.json" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\App\About.cshtml" />
     <Content Include="Views\App\Contact.cshtml" />
@@ -46,6 +52,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="OdeToCode.UseNodeModules" Version="3.0.0" />     
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="ClientApp\" />
   </ItemGroup>
 
 </Project>
